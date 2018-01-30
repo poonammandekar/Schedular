@@ -1,0 +1,29 @@
+Handeling a multiple clients request simultaneously to get file data in either uppercase lowerase or toggle format.
+
+to run program
+
+1. Run command : chmod +x monitor.py
+2. Then execute monitor process
+	./monitor.py
+3. After that execute user1 process (multiple instances)
+	./ui.py <fileName> <userName> <case> <delay>
+
+
+
+                    user1 user2  user3  usern
+                      |     |     |       |             
+                     ui1   ui2   ui3 ... uiN                             
+                      \     |     |       /             
+                       -------------------        
+                            WebServer-----take request and post to schedular
+                                |                   
+                                |                   
+                                --------------------
+                                      Schedular     --post request to appropriate handler     
+                                --------------------
+                                |     |     | .... |
+                              Hdlr1 Hdlr2  Hdlr3  HdlrN     
+                            lowercase   Uppercase   Togglecase
+
+Execution Process :-
+      ui send request to WebServer for service then web server again forward to Schedular and it will find available Handler (service). Schedular send data to Handler and Handler directle send to WebServer. if any of instance of ui, WebServer and Handler fails and monitor will relaunch it and execution will continue.
